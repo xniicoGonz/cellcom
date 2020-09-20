@@ -48,3 +48,25 @@ class RegisterConsultantControllers(MethodView):
         else:
             return jsonify({"Status": "Error",}),403
 
+class LoginControllers(MethodView):
+    """Logeo para el usuario del sistema"""
+    def post(self):
+        content=request.get_json()
+        errors = create_login_schema.load(content)
+        if errors:
+            content = request.get_json()
+            email = content.get('email')     
+            password = content.get('password')
+            #Consulta a la base de datos del email ingresado
+            user = session.query(User).filter_by(email=email).first()
+            ##aqui la duda cae en como recuperar el has de la bd 
+            if user:
+                email_db=user.email
+                password_db = user.password
+                if bcrypt.checkpw(password.encode('utf8'), password_db.encode('utf8')):
+                    # Se acude a jwt para generar un token codificado en formato json
+                    encoded_jwt = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=300), 'email': email}, KEY_TOKEN_AUTH, algorithm='HS256')
+                    return jsonify({"Status": "Login exitoso", "auth": True, "token": encoded_jwt.decode()}), 200
+                return jsonify({"Status": "Login incorrecto 22","email":user.email}), 400
+            return jsonify({"Status": "Login incorrecto 11"}), 400
+        return jsonify({"Status": "Datos no validos reintente de nuevo"}),400
