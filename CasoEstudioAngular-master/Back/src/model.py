@@ -30,7 +30,7 @@ class Lines(base):
 class Bill(base):
     __tablename__ = 'bills'
     value= Column(Integer)
-    id_bill = Column(Integer, primary_key=True)
+    id_bill = Column(Integer, primary_key=True, autoincrement='ignore_fk')
     collectionDay=Column(Date)
     customerIdentification=Column(String)
     numberLine=Column(String)
@@ -39,7 +39,7 @@ class Customer(base):
     __tablename__= 'customer'
     namne=Column(String)
     lastname=Column(String)
-    customerIdentification=Column(String, primary_key=True)
+    customerIdentification=Column(String, primary_key=True,)
     line=Column(String)
     dateBorn=Column(Date)
 

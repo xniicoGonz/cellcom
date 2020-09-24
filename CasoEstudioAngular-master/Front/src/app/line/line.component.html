@@ -23,21 +23,22 @@
                         <form [formGroup]="form2">
                             <div class="form-group">
                                 <label for="mobileline2">Line number </label>
-                                <input formControlName="line2" type="tel" class="form-control" id="mobileline" placeholder="(+00)000-000-000" value="{{customerLine}}">
+                                <input formControlName="line2" type="tel" class="form-control" id="mobileline" placeholder="(+00)000-000-000" [(ngModel)]="customerLine">
                             </div>
                             <div class="form-group">
                                 <label for="personid">Person ID </label>
-                                <input formControlName="personID" type="text" class="form-control" id="personid" placeholder="" value="{{customerID}}">
+                                <input formControlName="personID" type="text" class="form-control" id="personid" placeholder="" [(ngModel)]="customerID">
                             </div>
                             <div class="form-group">
                                 <label for="trademark">trademark </label>
-                                <input formControlName="trademark" type="text" class="form-control" id="trademark" placeholder="Nokia">
+                                <input formControlName="tradeMark" type="text" class="form-control" id="tradeMark" placeholder="" [(ngModel)]="customerTrademark">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputState">State</label>
-                                <select formControlName="state" id="inputState" class="form-control">
+                                <select formControlName="state" id="inputState" class="form-control" [(ngModel)]="customerState">
                               <option>Active</option>
                               <option>Suspended</option>
+                              <option selected={{customerState}}>{{customerState}}</option>
                             </select>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block mt-3" style="margin-left: 110px;" (click)='onSubmit3()'>registre</button>

@@ -26,7 +26,7 @@
 
                         <div class="dropdown-divider"></div><br>
                         <div style="background: rgb(255, 255, 255);">
-                            <p>Nombre: {{name}} <br> Apellido: {{lastname}} <br> Cédula: {{identificationCard}} <br> Número de linea telefonica: {{line}} <br>
+                            <p>Nombre:{{customerName}} <br> Apellido: {{customerLastname}}<br> Cédula:{{customerID}} <br> Número de linea telefonica:{{customerLine}} <br>
                             </p>
                         </div>
                         <p>Facturas encontradas:</p>
@@ -39,12 +39,12 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody *ngFor="let item of facturas">
                                 <tr>
-                                    <td>{{id_fac}} </td>
-                                    <td>{{datebill}}</td>
-                                    <td>{{valuefac}}</td>
-                                    <td> <a class="nav-link" (click)="onSubmit2()">Eliminar Factura</a></td>
+                                    <td>{{item[ "id_bill"]}}</td>
+                                    <td>{{item["collectionDay"]}}</td>
+                                    <td>{{item["value"]}}</td>
+                                    <td> <a class="nav-link" (click)="onSubmit2(item.id_bill)">Eliminar Factura</a></td>
                                 </tr>
                             </tbody>
                         </table>

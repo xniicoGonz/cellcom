@@ -63,6 +63,6 @@ export class ClientService {
       const params = new HttpParams().set('lineMobile', `${strQuery}`);
       config.params = params;
     }
-    return this.http.get(route, config);
+    return this.http.delete(route, config);
   }
 }

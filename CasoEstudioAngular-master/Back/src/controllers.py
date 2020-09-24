@@ -4,7 +4,8 @@ from marshmallow import Schema, fields, validate, ValidationError
 from marshmallow.validate import Length, Range
 from validators import LoginControllers_schema, RegistrerControllers_schema, RegisterCustomerControllers_schema, RegisterEquipmentControllers_schema, ManageLineControllers_schema, ManageLineControllers_put_schema, ManageLineControllers_get_schema, ManageBillControllers_get_Schema, ManageBillControllers_delete_Schema
 from model import session, User, Customer, equipment, Lines, Bill
-from helpers import QueryToList
+from helpers import  QueryToList
+from random import randint
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
@@ -103,17 +104,19 @@ class RegisterCustomerControllers(MethodView):
                                       state='active')
                     session.add(manage_bd)
                     session.commit()
-                    manage_bd=Bill(
+                    for x in range(5):
+                        manage_bd=Bill(
                             value=32000,
-                            id_bill=1,
+                      
                             collectionDay='2020-09-22',
                             customerIdentification=identificationCard,
                             numberLine=line
                         )
                         
                         
-                    session.add(manage_bd)
-                    session.commit()
+                        session.add(manage_bd)
+                        session.commit()
+
                     return jsonify({"Status": "Register customer successfully, Autorizacion por token valida ",
                     }), 200
                 return jsonify({"Status": "documento ya registrado"}), 403
@@ -159,12 +162,17 @@ class ManageLineControllers(MethodView):
             errors = create_ManageLineControllers_schema.load(content)
             if errors:
                 numberline = content.get("line2")
-                customer_dentification_card = content.get("customerIdentificationCard")
+                customer_dentification_card = content.get("personID")
+                print(customer_dentification_card)
                 state = content.get("state")
-                trademark=content.get("trademark")
-                line_bdvali = session.query(
-                    Lines).filter_by(numberline=numberline).first()
+                trademark = content.get("tradeMark")
+                line_bdvali = session.query(Lines).filter_by(numberline=numberline).first()
                 if not line_bdvali:
+                    idcustomer = session.query(Customer).filter_by(
+                        customerIdentification=customer_dentification_card).first()
+                    print(idcustomer)
+                    if not idcustomer:
+                        return jsonify({"Status": "No existe este usuario"})
                     manage_bd = Lines(numberline=numberline,
                                       customerIdentification=customer_dentification_card,
                                       state=state,
@@ -172,6 +180,16 @@ class ManageLineControllers(MethodView):
                                           )
                     session.add(manage_bd)
                     session.commit()
+                    for x in range(5):
+                        manage_bd = Bill(
+                            value=32000,
+                            collectionDay='2020-09-22',
+                            customerIdentification=customer_dentification_card,
+                            numberLine=numberline
+                        )
+
+                        session.add(manage_bd)
+                        x = randint(0,20)
                     return jsonify({"Status": "Register line successfully",}), 200
                 return jsonify({"Status": "Ya existe esta linea", }), 200
         return jsonify({"Status": 'no envio un token'}), 400
@@ -183,11 +201,12 @@ class ManageLineControllers(MethodView):
                 phone_bdvali = session.query(
                     Lines).filter_by(numberline=phone).first()
                 print(phone_bdvali.numberline,
-                      phone_bdvali.customerIdentification, phone_bdvali.state)
+                      phone_bdvali.customerIdentification, phone_bdvali.state, phone_bdvali.trademark)
                 return jsonify({"Status": "Line Consulted Successfully",
                                 'linea':  phone_bdvali.numberline,
                                 'id': phone_bdvali.customerIdentification,
-                                'state': phone_bdvali.state
+                                'state': phone_bdvali.state,
+                                'trademark':phone_bdvali.trademark
                                 }), 200
         return jsonify({"Status": "no se envio token"})
 
@@ -198,10 +217,14 @@ class ManageLineControllers(MethodView):
             if errors:
                 content = request.get_json(self)
                 line = content.get("line2")
+                print(line)
                 personID = content.get("personID")
+                print(personID)
                 state = content.get("state")
-                trademark=content.get("trademark")
-                session.query(Lines).filter_by(numberline = line).update({'state': state})
+                print(state)
+                trademark = content.get("tradeMark")
+                print(trademark)
+                session.query(Lines).filter_by(customerIdentification=personID).update({'state': state, 'trademark':trademark})
                 session.commit()
                 return jsonify({"Status": "Line update successfully"}),200
             return jsonify({"Status": "errror",
@@ -216,20 +239,19 @@ class ManageBillControllers(MethodView):
         if(request.headers.get('Authorization')):
             errors = create_ManageBillControllers_get_Schema.validate(line)
             if errors:
-                 phone_bdvali = session.query(
-                     Bill).filter_by(numberLine=line).first()
-                 Identification=phone_bdvali.customerIdentification
-                 user = session.query(Customer).filter_by(customerIdentification=Identification).first()
-
+                 result_query = session.query(Bill).filter_by(numberLine=line)
+                 list_data = QueryToList.queryall_bill_to_list(result_query)
+                 linebd = session.query(Lines).filter_by(
+                     numberline=line,).first()
+                 user = session.query(Customer).filter_by(customerIdentification=linebd.customerIdentification).first()
+                 print(user.customerIdentification)
               
                  return jsonify({"Status": "Bill Consulted Successfully",
-                                "name":user.namne,
-                                 "lastname":user.lastname,
-                                 "identification":user.customerIdentification, 
-                                 "line":user.line,
-                                 "value":phone_bdvali.value,
-                                 "id_bill":phone_bdvali.id_bill,
-                                 "collectionDay":phone_bdvali.collectionDay
+                                  "facturas":list_data,
+                                  "idcustomer": user.customerIdentification,
+                                  "name": user.namne,
+                                  "lastname": user.lastname,
+                                  "line": linebd.numberline
                   }), 200
         return jsonify({"Status": "error en el token"}), 400
 
@@ -238,8 +260,7 @@ class ManageBillControllers(MethodView):
             errors = create_ManageBillControllers_delete_Schema.validate(line)
             print(line)
             if errors:
-                content = request.get_json(self)
-                session.query(Bill).filter_by(numberLine = line).delete()
+                session.query(Bill).filter_by(id_bill=line).delete()
                 session.commit()
                 return jsonify({"Status": "Bill Deleted Successfully",
                                 "linea": line,

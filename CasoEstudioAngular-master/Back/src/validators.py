@@ -40,7 +40,7 @@ class ManageLineControllers_schema(Schema):
         required=True, validate=validate.Length(max=12), data_key='personID')
     state = fields.Str(required=True, data_key='state')
     trademark = fields.Str(required=True, validate=validate.Length(
-        min=1, max=12), data_key='trademark')
+        min=1, max=12), data_key='tradeMark')
 
 
 
@@ -48,8 +48,7 @@ class ManageLineControllers_put_schema(Schema):
     line = fields.Str(requiered=True,  validate=validate.Length(min=10, max=13), data_key='line2')
     personID = fields.Str(required=True, validate=validate.Length(min=1,max=15), data_key='personID')
     state = fields.Str(required=True, data_key='state')
-    trademark = fields.Str(required=True, validate=validate.Length(
-        min=1, max=12), data_key='trademark')
+    trademark = fields.Str(required=True, validate=validate.Length(min=1, max=12), data_key='tradeMark')
 
 class ManageLineControllers_get_schema(Schema):
     phone=fields.Str(required=True,  validate=validate.Length(min=10,max=13), data_key='phone' )
