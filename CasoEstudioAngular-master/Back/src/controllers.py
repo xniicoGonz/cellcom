@@ -3,14 +3,11 @@ from flask import Flask, render_template, request, session, redirect, url_for, j
 from marshmallow import Schema, fields, validate, ValidationError
 from marshmallow.validate import Length, Range
 from validators import LoginControllers_schema, RegistrerControllers_schema, RegisterCustomerControllers_schema, RegisterEquipmentControllers_schema, ManageLineControllers_schema, ManageLineControllers_put_schema, ManageLineControllers_get_schema, ManageBillControllers_get_Schema, ManageBillControllers_delete_Schema
-<<<<<<< HEAD
 from model import session, User
 from helpers import QueryToList
-=======
 from model import session, User, Customer, equipment, Lines, Bill
 from helpers import  QueryToList
 from random import randint
->>>>>>> c5b9b95... estado final del proyecto
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
