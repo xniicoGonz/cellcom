@@ -34,15 +34,21 @@ class RegisterEquipmentControllers_schema(Schema):
 
 
 class ManageLineControllers_schema(Schema):
-    number_line = fields.Str(requiered=True,validate=validate.Length(min=10, max=13), data_key='numberLine')
-    customer_dentification_card = fields.Str(required=True, validate=validate.Length(max=12), data_key='customerIdentificationCard')
-    state = fields.Boolean(required=True, data_key='state')
+    number_line = fields.Str(requiered=True, validate=validate.Length(
+        min=10, max=13), data_key='line2')
+    customer_dentification_card = fields.Str(
+        required=True, validate=validate.Length(max=12), data_key='personID')
+    state = fields.Str(required=True, data_key='state')
+    trademark = fields.Str(required=True, validate=validate.Length(
+        min=1, max=12), data_key='tradeMark')
+
 
 
 class ManageLineControllers_put_schema(Schema):
     line = fields.Str(requiered=True,  validate=validate.Length(min=10, max=13), data_key='line2')
-    personID = fields.Str(required=True, validate=validate.Length(max=12), data_key='personID')
-    state = fields.Boolean(required=True, data_key='state')
+    personID = fields.Str(required=True, validate=validate.Length(min=1,max=15), data_key='personID')
+    state = fields.Str(required=True, data_key='state')
+    trademark = fields.Str(required=True, validate=validate.Length(min=1, max=12), data_key='tradeMark')
 
 class ManageLineControllers_get_schema(Schema):
     phone=fields.Str(required=True,  validate=validate.Length(min=10,max=13), data_key='phone' )
@@ -52,4 +58,4 @@ class     ManageBillControllers_get_Schema(Schema):
 
 
 class ManageBillControllers_delete_Schema(Schema):
-    line = fields.Str(required=True,  validate=validate.Length(min=10, max=13), data_key='line')
+    idbill = fields.Str(required=True,  validate=validate.Length(min=10, max=13), data_key='idbill')

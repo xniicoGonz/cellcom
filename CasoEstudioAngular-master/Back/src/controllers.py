@@ -22,10 +22,6 @@ create_ManageLineControllers_put_schema = ManageLineControllers_put_schema()
 create_ManageLineControllers_get_schema = ManageLineControllers_get_schema()
 create_ManageBillControllers_get_Schema = ManageBillControllers_get_Schema()
 create_ManageBillControllers_delete_Schema = ManageBillControllers_delete_Schema()
-<<<<<<< HEAD
-=======
-
->>>>>>> c5b9b95... estado final del proyecto
 class RegisterConsultantControllers(MethodView):
     """ Registro  del asesor"""
 
@@ -47,7 +43,6 @@ class RegisterConsultantControllers(MethodView):
             hash_pass = hash_pass.decode('utf-8')
             print(hash_pass)
             user_lines = User(name=name, lastname=lastname,
-<<<<<<< HEAD
                               identificationCard=identificationCard, phone=phone, address=address, email=email, password=hash_pass,rol=rol)
 =======
                               identificationCard=identificationCard, phone=phone, 
@@ -82,8 +77,6 @@ class LoginControllers(MethodView):
                 return jsonify({"Status": "Login incorrecto 22","email":user.email}), 400
             return jsonify({"Status": "Login incorrecto 11"}), 400
         return jsonify({"Status": "Datos no validos reintente de nuevo"}),400
-<<<<<<< HEAD
-=======
 
 
 class RegisterCustomerControllers(MethodView):
@@ -280,4 +273,3 @@ class ManageBillControllers(MethodView):
         return jsonify({"Status": "no se envio un token"
 
                         }), 400
->>>>>>> c5b9b95... estado final del proyecto

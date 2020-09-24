@@ -26,5 +26,5 @@ line = {
 #factura
 bill  = {
     "getBill": "/api/v01/bill/get/<line>", "get_bill_controllers": ManageBillControllers.as_view("get_bill_api"),
-    "deleteBill": "/api/v01/bill/delete/<line>", "delete_bill_controllers": ManageBillControllers.as_view("delete_bill_api")
+    "deleteBill": "/api/v01/bill/delete/<idbill>", "delete_bill_controllers": ManageBillControllers.as_view("delete_bill_api")
 }
