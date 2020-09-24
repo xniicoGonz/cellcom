@@ -3,9 +3,14 @@ from flask import Flask, render_template, request, session, redirect, url_for, j
 from marshmallow import Schema, fields, validate, ValidationError
 from marshmallow.validate import Length, Range
 from validators import LoginControllers_schema, RegistrerControllers_schema, RegisterCustomerControllers_schema, RegisterEquipmentControllers_schema, ManageLineControllers_schema, ManageLineControllers_put_schema, ManageLineControllers_get_schema, ManageBillControllers_get_Schema, ManageBillControllers_delete_Schema
+<<<<<<< HEAD
+from model import session, User
+from helpers import QueryToList
+=======
 from model import session, User, Customer, equipment, Lines, Bill
 from helpers import  QueryToList
 from random import randint
+>>>>>>> c5b9b95... estado final del proyecto
 import bcrypt
 import jwt
 from config import KEY_TOKEN_AUTH
@@ -20,7 +25,10 @@ create_ManageLineControllers_put_schema = ManageLineControllers_put_schema()
 create_ManageLineControllers_get_schema = ManageLineControllers_get_schema()
 create_ManageBillControllers_get_Schema = ManageBillControllers_get_Schema()
 create_ManageBillControllers_delete_Schema = ManageBillControllers_delete_Schema()
+<<<<<<< HEAD
+=======
 
+>>>>>>> c5b9b95... estado final del proyecto
 class RegisterConsultantControllers(MethodView):
     """ Registro  del asesor"""
 
@@ -42,8 +50,12 @@ class RegisterConsultantControllers(MethodView):
             hash_pass = hash_pass.decode('utf-8')
             print(hash_pass)
             user_lines = User(name=name, lastname=lastname,
+<<<<<<< HEAD
+                              identificationCard=identificationCard, phone=phone, address=address, email=email, password=hash_pass,rol=rol)
+=======
                               identificationCard=identificationCard, phone=phone, 
                               address=address, email=email, password=hash_pass,rol=rol)
+>>>>>>> c5b9b95... estado final del proyecto
             session.add(user_lines)
             session.commit()
             return jsonify({"Status": "Register consultant successfully ",
@@ -73,6 +85,8 @@ class LoginControllers(MethodView):
                 return jsonify({"Status": "Login incorrecto 22","email":user.email}), 400
             return jsonify({"Status": "Login incorrecto 11"}), 400
         return jsonify({"Status": "Datos no validos reintente de nuevo"}),400
+<<<<<<< HEAD
+=======
 
 
 class RegisterCustomerControllers(MethodView):
@@ -269,3 +283,4 @@ class ManageBillControllers(MethodView):
         return jsonify({"Status": "no se envio un token"
 
                         }), 400
+>>>>>>> c5b9b95... estado final del proyecto
