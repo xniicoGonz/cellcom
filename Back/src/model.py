@@ -3,7 +3,11 @@ from sqlalchemy import Column, String, Date, Integer
 from sqlalchemy.ext.declarative import declarative_base  
 from sqlalchemy.orm import sessionmaker
 
+<<<<<<< HEAD
 db_string = "postgres://postgres:12345@localhost:5432/cellcom"
+=======
+db_string = "postgres://postgres:12345@localhost:5433/postgres"
+>>>>>>> 1957080... fase final del proyecto
 
 db = create_engine(db_string)
 base = declarative_base()
@@ -25,6 +29,7 @@ class Lines(base):
     numberline=Column(String, primary_key=True)
     customerIdentification=Column(String)
     state=Column(String)
+<<<<<<< HEAD
 
 class Bill(base):
     __tablename__ = 'bills'
@@ -32,12 +37,27 @@ class Bill(base):
     collectionDay=Column(Date)
     customerIdentification=Column(String)
     numberLine=Column(String, primary_key=True)
+=======
+    trademark=Column(String)
+
+class Bill(base):
+    __tablename__ = 'bills'
+    value= Column(Integer)
+    id_bill = Column(Integer, primary_key=True, autoincrement='ignore_fk')
+    collectionDay=Column(Date)
+    customerIdentification=Column(String)
+    numberLine=Column(String)
+>>>>>>> 1957080... fase final del proyecto
 
 class Customer(base):
     __tablename__= 'customer'
     namne=Column(String)
     lastname=Column(String)
+<<<<<<< HEAD
     customerIdentification=Column(String, primary_key=True)
+=======
+    customerIdentification=Column(String, primary_key=True,)
+>>>>>>> 1957080... fase final del proyecto
     line=Column(String)
     dateBorn=Column(Date)
 
@@ -48,7 +68,10 @@ class equipment(base):
     imei=Column(String, primary_key=True)
     trademark=Column(String)
     state= Column(String)
+<<<<<<< HEAD
     customerIdentification = Column(String)
+=======
+>>>>>>> 1957080... fase final del proyecto
 
     
 
